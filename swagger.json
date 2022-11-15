@@ -1,0 +1,365 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+      "title": "NO SQL POC",
+      "description": "Profile CRUD",
+      "version": "1.0.0"
+    },
+    "tags": [
+      {
+        "name": "profile",
+        "description": "Manage user Profiles"
+      },
+      {
+        "name": "user",
+        "description": "Manage user login"
+      }
+    ],
+    "servers": [
+      {
+        "url": "/",
+        "description": "local"
+      }
+    ],
+    "paths": {
+      "/users/register":{
+        "post": {
+          "tags": [
+            "user"
+          ],
+          "summary": "user register",
+          "description": "user register to login",
+          "operationId": "register",
+          "requestBody": {
+            "description": "user register to login",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/userRegisterRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Successfully registered user"
+            },
+            "400": {
+              "$ref": "#/components/responses/InvalidRequestError"
+            },
+            "401": {
+              "$ref": "#/components/responses/UnauthorizedError"
+            },
+            "500": {
+              "$ref": "#/components/responses/ServerError"
+            }
+          }
+        }
+      },
+      "/users/login":{
+        "post": {
+          "tags": [
+            "user"
+          ],
+          "summary": "user login",
+          "description": "user login",
+          "operationId": "login",
+          "requestBody": {
+            "description": "user login",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/userLoginRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Successfully registered user"
+            },
+            "400": {
+              "$ref": "#/components/responses/InvalidRequestError"
+            },
+            "401": {
+              "$ref": "#/components/responses/UnauthorizedError"
+            },
+            "500": {
+              "$ref": "#/components/responses/ServerError"
+            }
+          }
+        }
+      },
+      "/profiles": {
+        "post": {
+          "tags": [
+            "profile"
+          ],
+          "summary": "profile create",
+          "description": "user profile create",
+          "operationId": "profile",
+          "parameters": [
+            {
+              "$ref": "#/components/securitySchemes/AccessToken"
+            }
+          ],
+          "requestBody": {
+            "description": "profile",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/profileRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Successfully created user profiles"
+            },
+            "400": {
+              "$ref": "#/components/responses/InvalidRequestError"
+            },
+            "401": {
+              "$ref": "#/components/responses/UnauthorizedError"
+            },
+            "500": {
+              "$ref": "#/components/responses/ServerError"
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "profile"
+          ],
+          "summary": "Get all profiles",
+          "description": "Retrieve a profiles",
+          "operationId": "getProfileAll",
+          "parameters": [
+            {
+              "$ref": "#/components/securitySchemes/AccessToken"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfully retrieved profiles by color",
+              "type": "object"
+            },
+            "400": {
+              "$ref": "#/components/responses/InvalidRequestError"
+            },
+            "401": {
+              "$ref": "#/components/responses/UnauthorizedError"
+            },
+            "404": {
+              "$ref": "#/components/responses/NotFoundError"
+            },
+            "500": {
+              "$ref": "#/components/responses/ServerError"
+            }
+          }
+        }
+      },
+      "/profiles/color/{color}": {
+        "get": {
+          "tags": [
+            "profile"
+          ],
+          "summary": "Get profiles by color",
+          "description": "Retrieve a profiles by its color",
+          "operationId": "getProfileByColor",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "color",
+              "description": "color",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "$ref": "#/components/securitySchemes/AccessToken"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfully retrieved profiles by color",
+              "type": "object"
+            },
+            "400": {
+              "$ref": "#/components/responses/InvalidRequestError"
+            },
+            "401": {
+              "$ref": "#/components/responses/UnauthorizedError"
+            },
+            "404": {
+              "$ref": "#/components/responses/NotFoundError"
+            },
+            "500": {
+              "$ref": "#/components/responses/ServerError"
+            }
+          }
+        }
+      },
+      "/profiles/group/{group}": {
+        "get": {
+          "tags": [
+            "profile"
+          ],
+          "summary": "Get profiles by group",
+          "description": "Retrieve a profiles by its group",
+          "operationId": "getProfileByGroup",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "color",
+              "description": "color",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "$ref": "#/components/securitySchemes/AccessToken"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfully retrieved profiles by group",
+              "type": "object"
+            },
+            "400": {
+              "$ref": "#/components/responses/InvalidRequestError"
+            },
+            "401": {
+              "$ref": "#/components/responses/UnauthorizedError"
+            },
+            "404": {
+              "$ref": "#/components/responses/NotFoundError"
+            },
+            "500": {
+              "$ref": "#/components/responses/ServerError"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "securitySchemes": {
+        "AccessToken": {
+          "name": "x-access-token",
+          "in": "header",
+          "description": "Access Token",
+          "required": true,
+          "schema":{
+            "type": "string"
+          }
+        }
+      },
+      "schemas": {
+        "profileRequest": {
+          "type": "object"
+        },
+        "userRegisterRequest": {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+            "first_name": {
+              "type": "string"
+            },
+            "last_name": {
+              "type": "string"
+            }
+          }
+        },
+        "userLoginRequest": {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          }
+        },
+        "BasicErrorMessage": {
+          "type": "object",
+          "required": [
+            "error"
+          ],
+          "properties": {
+            "error": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "UnauthorizedError": {
+          "description": "Logged in user is unauthorized to make this request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BasicErrorMessage"
+              }
+            }
+          }
+        },
+        "InvalidRequestError": {
+          "description": "Missing required fields in request body",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BasicErrorMessage"
+              }
+            }
+          }
+        },
+        "NotFoundError": {
+          "description": "Resource was not found",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BasicErrorMessage"
+              }
+            }
+          }
+        },
+        "ConflictError": {
+          "description": "Conflict error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BasicErrorMessage"
+              }
+            }
+          }
+        },
+        "ServerError": {
+          "description": "Unexpected server error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BasicErrorMessage"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
