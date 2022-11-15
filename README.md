@@ -2,7 +2,7 @@
 Coding Sample
 
 ## Introduction
-Simple exercise for coding test
+Simple exercise res api with backend mongo and docker
 
 
 ## Installation
@@ -41,10 +41,10 @@ The service can run locally and point to any of the configurable IBM Cloud or Az
 sample data for local mongo environment
 ```
 TOKEN_KEY="SECRET USED TO SIGN AND VERIFY JWT TOKENS, REPLACE IT WITH YOUR OWN SECRET, IT CAN BE ANY STRING"
-MONGO_URL=mongodb://localhost:27017/sample
+MONGO_URL=mongodb://localhost:27017/sample or mongodb://mongo:27017/sample (for docker compose)
 ```
 
-# OR Installation using Docker
+# (OR) Installation using Docker
 
 ```
 docker-compose up -d --build
